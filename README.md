@@ -2,7 +2,10 @@
 > Mini Earth in 3D using three.js
 
 ## Features
-- 
+- Parcel
+- Three.js
+- OrbitControls
+- OBJLoader, MTLLoader
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
@@ -22,8 +25,13 @@ npm run dev
 npm run build
 ```
 
-## Controls
+# Technologies
 - 
 
-## Issues
-If you have some issues while try to build at first time, just check that parceljs(https://parceljs.org/getting_started.html) installed on your system.
+## Controls
+- Hold and slide on the planet to rotate it
+- Scroll to zoom in
+
+## Author
+Code By [Manolo Pecout](https://www.manolopecout.fr)
+3D Models By [Google Poly](https://www.poly.google.com)
