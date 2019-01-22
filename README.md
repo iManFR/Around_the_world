@@ -34,4 +34,4 @@ npm run build
 
 ## Author
 - Code By [Manolo Pecout](https://www.manolopecout.fr)
-- 3D Models By [Google Poly](https://www.poly.google.com)
+- 3D Models By [Google Poly](https://poly.google.com/)

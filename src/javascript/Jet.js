@@ -11,9 +11,8 @@ import {MTLLoader, OBJLoader} from 'three-obj-mtl-loader'
  * Class
  */
 class Jet{
-    constructor(_options)
+    constructor()
     {
-        //this.scene = _options.scene
         this.container = new THREE.Object3D()
 
         this.mtlLoader = new MTLLoader

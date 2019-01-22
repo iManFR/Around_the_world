@@ -4,9 +4,9 @@
 //Import Three.js
 import * as THREE from 'three'
 
-//import {MTLLoader, OBJLoader} from 'three-obj-mtl-loader'
-
+// Import OrbitControls
 import ThreeOrbitControls from 'three-orbit-controls'
+const OrbitControls = ThreeOrbitControls(THREE)
 
 // Import Rocket Model
 //import Rocket from '/javascript/Rocket.js'
@@ -26,9 +26,6 @@ import Jet from '/javascript/Jet.js'
 // Import Earth Model
 import Earth from '/javascript/Earth.js'
 
-//import Application from './Application.js'
-
-const OrbitControls = ThreeOrbitControls(THREE)
 
 /**
  * Cursor
@@ -45,7 +42,7 @@ window.addEventListener('mousemove', (_event) =>
 
 
 /**
- * Sizes
+ * Sizes/Resizes
  */
 const sizes = {}
 sizes.width = window.innerWidth
