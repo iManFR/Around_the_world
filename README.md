@@ -2,10 +2,10 @@
 > Mini Earth in 3D using three.js
 
 ## Technologies
-- Parcel
-- Three.js
-- OrbitControls
-- OBJLoader, MTLLoader
+- [Parcel](https://parceljs.org/)
+- [Three.js](https://threejs.org//)
+- [OrbitControls](https://www.npmjs.com/package/three-orbit-controls)
+- [OBJLoader](https://www.npmjs.com/package/three-obj-mtl-loader), [MTLLoader](https://www.npmjs.com/package/three-obj-mtl-loader)
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
@@ -33,5 +33,5 @@ npm run build
 - Scroll to zoom in
 
 ## Author
-Code By [Manolo Pecout](https://www.manolopecout.fr)
-3D Models By [Google Poly](https://www.poly.google.com)
+- Code By [Manolo Pecout](https://www.manolopecout.fr)
+- 3D Models By [Google Poly](https://www.poly.google.com)
