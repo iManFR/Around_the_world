@@ -1,7 +1,7 @@
 # Around the world
 > Mini Earth in 3D using three.js
 
-## Features
+## Technologies
 - Parcel
 - Three.js
 - OrbitControls
@@ -25,7 +25,7 @@ npm run dev
 npm run build
 ```
 
-# Technologies
+## Features
 - 
 
 ## Controls
