@@ -20,11 +20,15 @@ import Shuttle from '/javascript/Shuttle.js'
 // Import Satellite Model
 import Satellite from '/javascript/Satellite.js'
 
+// Import Satellite Model
+import Jet from '/javascript/Jet.js'
+
 // Import Earth Model
 import Earth from '/javascript/Earth.js'
 
 //import Application from './Application.js'
 
+const OrbitControls = ThreeOrbitControls(THREE)
 
 /**
  * Cursor
@@ -38,12 +42,6 @@ window.addEventListener('mousemove', (_event) =>
     cursor.x = _event.clientX / sizes.width - 0.5
     cursor.y = _event.clientY / sizes.height - 0.5
 })
-
-
-/**
- * Scene
- */
-const scene = new THREE.Scene()
 
 
 /**
@@ -69,17 +67,17 @@ window.addEventListener('resize', () =>
 
 
 /**
+ * Scene
+ */
+const scene = new THREE.Scene()
+
+
+/**
  * Camera
  */
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 30
 scene.add(camera)
-
-
-/**
- * Controls
- */
-//const controls = new ThreeOrbitControls( camera )
 
 
 /**
@@ -98,6 +96,28 @@ sunLight.position.x = 1
 sunLight.position.y = 1
 sunLight.position.z = 1
 scene.add(sunLight)
+
+
+/**
+ * Renderer
+ */
+const renderer = new THREE.WebGLRenderer()
+renderer.shadowMap.enabled = true
+renderer.setSize(sizes.width, sizes.height)
+document.body.appendChild(renderer.domElement)
+
+
+/**
+ * Controls
+ */
+const controls = new OrbitControls(camera, renderer.domElement)
+controls.enableDamping = true
+controls.dampingFactor = 0.05
+controls.enableZoom = true
+controls.rotateSpeed = 0.05
+controls.minDistance = 20
+controls.maxDistance = 30
+controls.enablePan = false
 
 
 /**
@@ -128,8 +148,14 @@ const shuttle = new Shuttle({ scene: scene })
 shuttle.container.rotation.x = - (Math.PI / 2)
 shuttle.container.rotation.z = + (Math.PI / 2)
 shuttle.container.scale.set(0.1, 0.1, 0.1)
-shuttle.container.position.y = 14
+shuttle.container.position.y = 14.5
+shuttle.container.castShadow = true
 scene.add(shuttle.container)
+
+const rotateShuttle = new THREE.Object3D()
+earth.container.add(rotateShuttle)
+rotateShuttle.add(shuttle.container)
+
 
 /**
  * Satellite
@@ -137,31 +163,34 @@ scene.add(shuttle.container)
 const satellite = new Satellite({ scene: scene })
 satellite.container.scale.set(0.05, 0.05, 0.05)
 satellite.container.position.y = 12
+satellite.container.castShadow = true
 scene.add(satellite.container)
 
+const rotateSatellite = new THREE.Object3D()
+earth.container.add(rotateSatellite)
+rotateSatellite.add(satellite.container)
+
+
+/**
+ * Jet
+ */
+const jet = new Jet({ scene: scene })
+jet.container.scale.set(0.3, 0.3, 0.3)
+jet.container.position.z = 9
+jet.container.rotation.x = (Math.PI / 2)
+jet.container.rotation.y = (Math.PI / 2)
+scene.add(jet.container)
+
+const rotateJet = new THREE.Object3D()
+earth.container.add(rotateJet)
+rotateJet.add(jet.container)
 
 /**
  * Environement
  */
 const environment = new Environment({ textureLoader: textureLoader })
+environment.container.receiveShadow = true
 scene.add(environment.container)
-
-
-/**
- * Pivot point
- */
-const pivotPoint = new THREE.Object3D()
-earth.container.add(pivotPoint)
-pivotPoint.add(shuttle.container)
-
-
-/**
- * Renderer
- */
-const renderer = new THREE.WebGLRenderer()
-renderer.shadowMap.enabled = true
-renderer.setSize(sizes.width, sizes.height)
-document.body.appendChild(renderer.domElement)
 
 
 /**
@@ -172,21 +201,25 @@ const loop = () =>
     window.requestAnimationFrame(loop)
 
     // Update camera
-    camera.position.x = cursor.x * 10
-    camera.position.y = - cursor.y * 10
-    camera.lookAt(new THREE.Vector3())
+    //camera.position.x = cursor.x * 10
+    //camera.position.y = - cursor.y * 10
+    //camera.lookAt(new THREE.Vector3())
 
     // Update Orbit Controls
-    //controls.update()
+    controls.update()
 
     // Shuttle Rotate
-    pivotPoint.rotation.z += 0.02
+    rotateShuttle.rotation.z += 0.02
 
     // Satellite Rotate
-    //pivotPoint.rotation.z += 0.02
+    rotateSatellite.rotation.x -= 0.03
+    satellite.container.rotation.y += 0.01
 
     // Plane Rotate
-    //pivotPoint.rotation.z += 0.02
+    rotateJet.rotation.y += 0.015
+
+    // Earth Rotate
+    earth.container.rotation.y -= 0.0002
 
     // Renderer
     renderer.render(scene, camera)

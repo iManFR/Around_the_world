@@ -1,14 +1,8 @@
-# Three.js template
-> Simple Three.js starter
+# Around the world
+> Mini Earth in 3D using three.js
 
 ## Features
-- [Parcel.js](https://parceljs.org/)
-- [Postprocessing](https://www.npmjs.com/package/postprocessing)
-- [SMAA Pass](https://vanruesc.github.io/postprocessing/public/demo/#smaa)
-- [Orbit control](https://www.npmjs.com/package/three-orbit-controls)
-- EventEmitter class (used to trigger event)
-- Sizes class (used to get resize events and viewport sizes)
-- Time class (used to get RAF events)
+- 
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
@@ -21,12 +15,15 @@ npm install -g parcel-bundler
 # Install dependencies (only for first time)
 npm i
 
-# Serve at localhost:1234
+# Serve at localhost:8080
 npm run dev
 
 # Build for production in the dist/ directory
 npm run build
 ```
+
+## Controls
+- 
 
 ## Issues
 If you have some issues while try to build at first time, just check that parceljs(https://parceljs.org/getting_started.html) installed on your system.
