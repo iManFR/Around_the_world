@@ -10,7 +10,7 @@ import {MTLLoader, OBJLoader} from 'three-obj-mtl-loader'
 /**
  * Class
  */
-class Shuttle{
+class Satellite{
     constructor(_options)
     {
         //this.scene = _options.scene
@@ -20,14 +20,14 @@ class Shuttle{
         this.objLoader = new OBJLoader
 
         // Object
-        this.setShuttle()
+        this.setSatellite()
     }
 
-    setShuttle(){
-        this.mtlLoader.load('models/shuttle/SpaceShuttle.mtl', (materials) => {
+    setSatellite(){
+        this.mtlLoader.load('models/satellite/Satellite.mtl', (materials) => {
             materials.preload()
             this.objLoader.setMaterials(materials)
-            this.objLoader.load('models/shuttle/SpaceShuttle.obj', (object) => {
+            this.objLoader.load('models/satellite/Satellite.obj', (object) => {
                 this.container.add(object)
             })
         })
@@ -38,4 +38,4 @@ class Shuttle{
 /**
  * Exports
  */
-export default Shuttle
+export default Satellite

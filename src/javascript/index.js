@@ -14,10 +14,13 @@ import ThreeOrbitControls from 'three-orbit-controls'
 // Import Environment
 import Environment from '/javascript/Environment.js'
 
-// Import Rocket Model
+// Import Shuttle Model
 import Shuttle from '/javascript/Shuttle.js'
 
-// Import Rocket Model
+// Import Satellite Model
+import Satellite from '/javascript/Satellite.js'
+
+// Import Earth Model
 import Earth from '/javascript/Earth.js'
 
 //import Application from './Application.js'
@@ -79,7 +82,6 @@ scene.add(camera)
 //const controls = new ThreeOrbitControls( camera )
 
 
-
 /**
  * Lights
  */
@@ -124,10 +126,18 @@ scene.add(earth.container)
  */
 const shuttle = new Shuttle({ scene: scene })
 shuttle.container.rotation.x = - (Math.PI / 2)
-shuttle.container.rotation.z = - (Math.PI / 2)
-shuttle.container.scale.set(0.2, 0.2, 0.2)
-shuttle.container.position.y = 12
+shuttle.container.rotation.z = + (Math.PI / 2)
+shuttle.container.scale.set(0.1, 0.1, 0.1)
+shuttle.container.position.y = 14
 scene.add(shuttle.container)
+
+/**
+ * Satellite
+ */
+const satellite = new Satellite({ scene: scene })
+satellite.container.scale.set(0.05, 0.05, 0.05)
+satellite.container.position.y = 12
+scene.add(satellite.container)
 
 
 /**
@@ -135,6 +145,14 @@ scene.add(shuttle.container)
  */
 const environment = new Environment({ textureLoader: textureLoader })
 scene.add(environment.container)
+
+
+/**
+ * Pivot point
+ */
+const pivotPoint = new THREE.Object3D()
+earth.container.add(pivotPoint)
+pivotPoint.add(shuttle.container)
 
 
 /**
@@ -160,6 +178,15 @@ const loop = () =>
 
     // Update Orbit Controls
     //controls.update()
+
+    // Shuttle Rotate
+    pivotPoint.rotation.z += 0.02
+
+    // Satellite Rotate
+    //pivotPoint.rotation.z += 0.02
+
+    // Plane Rotate
+    //pivotPoint.rotation.z += 0.02
 
     // Renderer
     renderer.render(scene, camera)
