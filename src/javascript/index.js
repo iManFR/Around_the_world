@@ -224,18 +224,23 @@ const options = {
 const gui = new dat.GUI()
 
 const earthSettings = gui.addFolder('Earth')
-earthSettings.add(options, 'earthRotation', 0, 0.01).name('Rotation').listen()
+earthSettings.add(options, 'earthRotation', 0, 0.02).name('Rotation Speed').listen()
+earthSettings.open()
 
 const shuttleSettings = gui.addFolder('Shuttle')
-shuttleSettings.add(options, 'shuttleRotation', 0, 0.1).name('Rotation').listen()
+shuttleSettings.add(options, 'shuttleRotation', 0, 0.1).name('Speed').listen()
 shuttleSettings.add(options, 'shuttleAngle', 0, Math.PI * 2).name('Angle').listen()
+shuttleSettings.open()
 
 const satelliteSettings = gui.addFolder('Satellite')
-satelliteSettings.add(options, 'satelliteRotation', 0, 0.1).name('Rotation').listen()
+satelliteSettings.add(options, 'satelliteRotation', 0, 0.1).name('Speed').listen()
+satelliteSettings.open()
 
 const jetSettings = gui.addFolder('Jet')
-jetSettings.add(options, 'jetRotation', 0, 0.1).name('Rotation').listen()
+jetSettings.add(options, 'jetRotation', 0, 0.1).name('Speed').listen()
 jetSettings.add(options, 'jetAngle', 0, Math.PI * 2).name('Angle').listen()
+jetSettings.open()
+
 
 /**
  * Loop
