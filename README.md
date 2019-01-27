@@ -6,6 +6,7 @@
 - [Three.js](https://threejs.org//)
 - [OrbitControls](https://www.npmjs.com/package/three-orbit-controls)
 - [OBJLoader](https://www.npmjs.com/package/three-obj-mtl-loader), [MTLLoader](https://www.npmjs.com/package/three-obj-mtl-loader)
+- [Dat Gui](https://github.com/dataarts/dat.gui)
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
