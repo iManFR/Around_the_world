@@ -8,6 +8,9 @@ import * as THREE from 'three'
 import ThreeOrbitControls from 'three-orbit-controls'
 const OrbitControls = ThreeOrbitControls(THREE)
 
+// Import Dat Gui
+import * as dat from 'dat.gui'
+
 // Import Rocket Model
 //import Rocket from '/javascript/Rocket.js'
 
@@ -25,6 +28,7 @@ import Jet from '/javascript/Jet.js'
 
 // Import Earth Model
 import Earth from '/javascript/Earth.js'
+
 
 
 /**
@@ -80,7 +84,7 @@ scene.add(camera)
 /**
  * Lights
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.7)
 scene.add(ambientLight)
 
 const sunLight = new THREE.DirectionalLight(0xffcccc, 1.6)
@@ -133,7 +137,7 @@ scene.add(rocket.container)*/
 /**
  * Earth
  */
-const earth = new Earth({ scene: scene })
+const earth = new Earth()
 earth.container.scale.set(1, 1, 1)
 scene.add(earth.container)
 
@@ -141,7 +145,7 @@ scene.add(earth.container)
 /**
  * Shuttle
  */
-const shuttle = new Shuttle({ scene: scene })
+const shuttle = new Shuttle()
 shuttle.container.rotation.x = - (Math.PI / 2)
 shuttle.container.rotation.z = + (Math.PI / 2)
 shuttle.container.scale.set(0.1, 0.1, 0.1)
@@ -151,13 +155,14 @@ scene.add(shuttle.container)
 
 const rotateShuttle = new THREE.Object3D()
 earth.container.add(rotateShuttle)
+//rotateShuttle.rotation.x = Math.PI/6
 rotateShuttle.add(shuttle.container)
 
 
 /**
  * Satellite
  */
-const satellite = new Satellite({ scene: scene })
+const satellite = new Satellite()
 satellite.container.scale.set(0.05, 0.05, 0.05)
 satellite.container.position.y = 12
 satellite.container.castShadow = true
@@ -171,7 +176,7 @@ rotateSatellite.add(satellite.container)
 /**
  * Jet
  */
-const jet = new Jet({ scene: scene })
+const jet = new Jet()
 jet.container.scale.set(0.3, 0.3, 0.3)
 jet.container.position.z = 9
 jet.container.rotation.x = (Math.PI / 2)
@@ -180,7 +185,9 @@ scene.add(jet.container)
 
 const rotateJet = new THREE.Object3D()
 earth.container.add(rotateJet)
+//rotateJet.rotation.x = Math.PI/6
 rotateJet.add(jet.container)
+
 
 /**
  * Environement
@@ -189,6 +196,46 @@ const environment = new Environment({ textureLoader: textureLoader })
 environment.container.receiveShadow = true
 scene.add(environment.container)
 
+
+/**
+ * Options
+ */
+const options = {
+    // Earth
+    earthRotation: 0.0002,
+
+    // Shuttle
+    shuttleRotation: 0.02,
+    shuttleAngle: Math.PI/6,
+
+    // Satellite
+    satelliteRotation: 0.02,
+
+    // Jet
+    jetRotation: 0.015,
+    jetAngle: Math.PI/6,
+
+}
+
+
+/**
+ * DAT GUI
+ */
+const gui = new dat.GUI()
+
+const earthSettings = gui.addFolder('Earth')
+earthSettings.add(options, 'earthRotation', 0, 0.01).name('Rotation').listen()
+
+const shuttleSettings = gui.addFolder('Shuttle')
+shuttleSettings.add(options, 'shuttleRotation', 0, 0.1).name('Rotation').listen()
+shuttleSettings.add(options, 'shuttleAngle', 0, Math.PI * 2).name('Angle').listen()
+
+const satelliteSettings = gui.addFolder('Satellite')
+satelliteSettings.add(options, 'satelliteRotation', 0, 0.1).name('Rotation').listen()
+
+const jetSettings = gui.addFolder('Jet')
+jetSettings.add(options, 'jetRotation', 0, 0.1).name('Rotation').listen()
+jetSettings.add(options, 'jetAngle', 0, Math.PI * 2).name('Angle').listen()
 
 /**
  * Loop
@@ -206,17 +253,21 @@ const loop = () =>
     controls.update()
 
     // Shuttle Rotate
-    rotateShuttle.rotation.z += 0.02
+    rotateShuttle.rotation.z += options.shuttleRotation
+    // Shuttle Angle
+    rotateShuttle.rotation.x = options.shuttleAngle
 
     // Satellite Rotate
-    rotateSatellite.rotation.x -= 0.03
+    rotateSatellite.rotation.x -= options.satelliteRotation
     satellite.container.rotation.y += 0.01
 
     // Plane Rotate
-    rotateJet.rotation.y += 0.015
-
+    rotateJet.rotation.y += options.jetRotation
+    // Plane Angle
+    rotateJet.rotation.x = options.jetAngle
+    
     // Earth Rotate
-    earth.container.rotation.y -= 0.0002
+    earth.container.rotation.y -= options.earthRotation
 
     // Renderer
     renderer.render(scene, camera)
@@ -235,81 +286,4 @@ if (module.hot) {
     module.hot.accept(function() {
       // module or one of its dependencies was just updated
     })
-  }
-
-
-/*const mtlLoader = new MTLLoader()
-
-const objLoader = new OBJLoader()
-
-mtlLoader.load('SpaceShuttle.mtl', (materials) => {
-    materials.preload()
-    objLoader.setMaterials(materials)
-    objLoader.load('SpaceShuttle.obj', (object) => {
-        object.rotation.x = - (Math.PI / 2)
-        scene.add(object)
-    })
-})
-
-mtlLoader.load('CHAHIN_EARTH.mtl', (materials) => {
-    materials.preload()
-    objLoader.setMaterials(materials)
-    objLoader.load('CHAHIN_EARTH.obj', (object) => {
-        scene.add(object)
-    })
-})*/
-
-
-/*const shuttle = {}
-shuttle.mtlLoader = new MTLLoader()
-shuttle.mtlLoader.setTexturePath('/models/shuttle/')
-shuttle.mtlLoader.setPath('/models/shuttle/')
-shuttle.mtlLoader.load('SpaceShuttle.mtl', function (materials) {
-    materials.preload()
-    shuttle.objLoader = new OBJLoader()
-    shuttle.objLoader.setMaterials(materials)
-    shuttle.objLoader.setPath('/models/shuttle/')
-    shuttle.objLoader.load('SpaceShuttle.obj', function (object) {
-        object.rotation.x = - (Math.PI / 2)
-        object.scale.set(0.2, 0.2, 0.2)
-        object.position.y = 12
-        scene.add(object)
-    })
-})*/
-
-
-/*const setAsteroids = () => {
-    const mtlAsteroids = new MTLLoader()
-    mtlAsteroids.setTexturePath('/models/asteroids/')
-    mtlAsteroids.setPath('/models/asteroids/')
-    mtlAsteroids.load('Asteroids.mtl', function (materials) {
-        materials.preload()
-        const objAsteroids = new OBJLoader()
-        objAsteroids.setMaterials(materials)
-        objAsteroids.setPath('/models/asteroids/')
-        objAsteroids.load('Asteroids.obj', function (object) {
-            object.position.z = - 40
-            object.position.y = - 20
-            scene.add(object)
-        })
-    })
-}*/
-//setAsteroids()
-
-
-/*const setEarth = () => {
-    const mtlEarth = new MTLLoader()
-    mtlEarth.setTexturePath('/models/earth/')
-    mtlEarth.setPath('/models/earth/')
-    mtlEarth.load('CHAHIN_EARTH.mtl', function (materials) {
-        materials.preload()
-        const objEarth = new OBJLoader()
-        objEarth.setMaterials(materials)
-        objEarth.setPath('/models/earth/')
-        objEarth.load('CHAHIN_EARTH.obj', function (object) {
-            object.scale.set(1, 1, 1)
-            scene.add(object)
-        })
-    })
 }
-setEarth()*/
