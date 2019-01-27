@@ -26,7 +26,8 @@ npm run build
 ```
 
 ## Features
-- 
+- The planet earth in a minimalist version based on a 3d model
+- You can adjust the speed and rotation of the elements using the Dat Gui panel
 
 ## Controls
 - Hold and slide on the planet to rotate it
